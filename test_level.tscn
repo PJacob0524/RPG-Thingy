@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://wng8dvyl0om0"]
+
+[ext_resource type="PackedScene" uid="uid://bu0tfp3rem5mw" path="res://battle_line.tscn" id="1_pxvll"]
+
+[node name="Test Level" type="Node"]
+
+[node name="Battle Line" parent="." instance=ExtResource("1_pxvll")]
+position = Vector2(530, 380)

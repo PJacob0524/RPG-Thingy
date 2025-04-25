@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=3 uid="uid://bu0tfp3rem5mw"]
+
+[ext_resource type="Script" path="res://battle_line.gd" id="1_mgggp"]
+[ext_resource type="Texture2D" uid="uid://c7bibbfbt5jdb" path="res://icon.svg" id="2_laa03"]
+[ext_resource type="Script" path="res://character.gd" id="3_xdv2y"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3yi4i"]
+size = Vector2(624, 67)
+
+[node name="Battle Line" type="Node2D" node_paths=PackedStringArray("marker")]
+script = ExtResource("1_mgggp")
+slot_count = 9
+marker = NodePath("Marker2D")
+
+[node name="Battle Area" type="Area2D" parent="."]
+
+[node name="Shape" type="CollisionShape2D" parent="Battle Area"]
+unique_name_in_owner = true
+shape = SubResource("RectangleShape2D_3yi4i")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+z_index = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="Marker2D"]
+scale = Vector2(0.0881348, 0.0881348)
+texture = ExtResource("2_laa03")
+
+[node name="Character" type="Node2D" parent="."]
+script = ExtResource("3_xdv2y")
+
+[node name="Sprite2D" type="Sprite2D" parent="Character"]
+position = Vector2(-4.76837e-07, 9.53674e-07)
+scale = Vector2(0.382813, 0.382813)
+texture = ExtResource("2_laa03")
+
+[node name="Character2" type="Node2D" parent="."]
+position = Vector2(270, 0)
+script = ExtResource("3_xdv2y")
+
+[node name="Sprite2D" type="Sprite2D" parent="Character2"]
+modulate = Color(1, 0, 0, 1)
+scale = Vector2(0.382813, 0.382813)
+texture = ExtResource("2_laa03")
+
+[connection signal="input_event" from="Battle Area" to="." method="_on_battle_area_input_event"]
