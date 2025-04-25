@@ -1,16 +1,20 @@
-[gd_scene load_steps=5 format=3 uid="uid://bu0tfp3rem5mw"]
+[gd_scene load_steps=8 format=3 uid="uid://bu0tfp3rem5mw"]
 
 [ext_resource type="Script" path="res://battle_line.gd" id="1_mgggp"]
 [ext_resource type="Texture2D" uid="uid://c7bibbfbt5jdb" path="res://icon.svg" id="2_laa03"]
-[ext_resource type="Script" path="res://character.gd" id="3_xdv2y"]
+[ext_resource type="PackedScene" uid="uid://s27cfjnbahnw" path="res://character.tscn" id="3_sph7f"]
+[ext_resource type="Script" path="res://target_hightlight.gd" id="4_2wi7d"]
+[ext_resource type="Script" path="res://action.gd" id="4_wcflo"]
+[ext_resource type="Resource" uid="uid://byl36gu8f26a4" path="res://punch.tres" id="5_7aiav"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3yi4i"]
 size = Vector2(624, 67)
 
-[node name="Battle Line" type="Node2D" node_paths=PackedStringArray("marker")]
+[node name="Battle Line" type="Node2D" node_paths=PackedStringArray("marker", "highlight")]
 script = ExtResource("1_mgggp")
 slot_count = 9
 marker = NodePath("Marker2D")
+highlight = NodePath("Target Hightlight")
 
 [node name="Battle Area" type="Area2D" parent="."]
 
@@ -25,21 +29,33 @@ z_index = 1
 scale = Vector2(0.0881348, 0.0881348)
 texture = ExtResource("2_laa03")
 
-[node name="Character" type="Node2D" parent="."]
-script = ExtResource("3_xdv2y")
+[node name="Player" parent="." instance=ExtResource("3_sph7f")]
+actions = Array[ExtResource("4_wcflo")]([ExtResource("5_7aiav")])
+player = true
+speed = 100
 
-[node name="Sprite2D" type="Sprite2D" parent="Character"]
-position = Vector2(-4.76837e-07, 9.53674e-07)
-scale = Vector2(0.382813, 0.382813)
+[node name="Enemy" parent="." instance=ExtResource("3_sph7f")]
+position = Vector2(68, 0)
+scale = Vector2(1.00937, 1.00937)
+
+[node name="Target Hightlight" type="Node2D" parent="." node_paths=PackedStringArray("Area_Highlight", "Ally_Highlight", "Enemy_Highlight")]
+script = ExtResource("4_2wi7d")
+Area_Highlight = NodePath("Area Highlight")
+Ally_Highlight = NodePath("Area Highlight")
+Enemy_Highlight = NodePath("Enemy Highlight")
+
+[node name="Area Highlight" type="Sprite2D" parent="Target Hightlight"]
+visible = false
+modulate = Color(0, 0.623529, 0.980392, 0.462745)
+z_index = -1
+scale = Vector2(0.609375, 0.609375)
 texture = ExtResource("2_laa03")
 
-[node name="Character2" type="Node2D" parent="."]
-position = Vector2(270, 0)
-script = ExtResource("3_xdv2y")
-
-[node name="Sprite2D" type="Sprite2D" parent="Character2"]
-modulate = Color(1, 0, 0, 1)
-scale = Vector2(0.382813, 0.382813)
+[node name="Enemy Highlight" type="Sprite2D" parent="Target Hightlight"]
+visible = false
+modulate = Color(1, 0.444831, 0.365119, 0.462745)
+z_index = -1
+scale = Vector2(0.609375, 0.609375)
 texture = ExtResource("2_laa03")
 
 [connection signal="input_event" from="Battle Area" to="." method="_on_battle_area_input_event"]
