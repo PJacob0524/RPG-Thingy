@@ -1,0 +1,54 @@
+[gd_scene load_steps=6 format=3 uid="uid://s27cfjnbahnw"]
+
+[ext_resource type="Script" path="res://Scripts/character.gd" id="1_ed4d0"]
+[ext_resource type="Texture2D" uid="uid://c7bibbfbt5jdb" path="res://Images/icon.svg" id="2_qwubf"]
+
+[sub_resource type="Animation" id="Animation_w6dl8"]
+resource_name = "punch"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:skew")
+tracks/0/interp = 4
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.533333, 0.666667, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.678933, -0.158825, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_w6g8s"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:skew")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_e46bv"]
+_data = {
+"RESET": SubResource("Animation_w6g8s"),
+"punch": SubResource("Animation_w6dl8")
+}
+
+[node name="Character" type="Node2D"]
+script = ExtResource("1_ed4d0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-4.76837e-07, 9.53674e-07)
+scale = Vector2(0.382813, 0.382813)
+texture = ExtResource("2_qwubf")
+
+[node name="Animator" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_e46bv")
+}

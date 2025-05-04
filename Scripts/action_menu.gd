@@ -16,8 +16,8 @@ func add_button(name: String, value):
 	button.value = value
 	button.visible = true
 	button.text = name
+	button.disabled = false
 	%ActionOptions.add_child(button)
-	button.pressed.connect(button.not_cool_godot)
 
 func remove_action_menu():
 	for button in %ActionOptions.get_children():

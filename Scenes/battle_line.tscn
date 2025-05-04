@@ -1,11 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://bu0tfp3rem5mw"]
+[gd_scene load_steps=9 format=3 uid="uid://bu0tfp3rem5mw"]
 
-[ext_resource type="Script" path="res://battle_line.gd" id="1_mgggp"]
-[ext_resource type="Texture2D" uid="uid://c7bibbfbt5jdb" path="res://icon.svg" id="2_laa03"]
-[ext_resource type="PackedScene" uid="uid://s27cfjnbahnw" path="res://character.tscn" id="3_sph7f"]
-[ext_resource type="Script" path="res://target_hightlight.gd" id="4_2wi7d"]
-[ext_resource type="Script" path="res://action.gd" id="4_wcflo"]
-[ext_resource type="Resource" uid="uid://byl36gu8f26a4" path="res://punch.tres" id="5_7aiav"]
+[ext_resource type="Script" path="res://Scripts/battle_line.gd" id="1_mgggp"]
+[ext_resource type="Texture2D" uid="uid://c7bibbfbt5jdb" path="res://Images/icon.svg" id="2_laa03"]
+[ext_resource type="PackedScene" uid="uid://s27cfjnbahnw" path="res://Scenes/character.tscn" id="3_sph7f"]
+[ext_resource type="Script" path="res://Scripts/target_hightlight.gd" id="4_2wi7d"]
+[ext_resource type="Script" path="res://Scripts/action.gd" id="4_wcflo"]
+[ext_resource type="Resource" uid="uid://byl36gu8f26a4" path="res://Resources/move.tres" id="5_7aiav"]
+[ext_resource type="Resource" uid="uid://dgd6j7w8rwmyu" path="res://Resources/punch.tres" id="6_0mnvg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3yi4i"]
 size = Vector2(624, 67)
@@ -30,13 +31,16 @@ scale = Vector2(0.0881348, 0.0881348)
 texture = ExtResource("2_laa03")
 
 [node name="Player" parent="." instance=ExtResource("3_sph7f")]
-actions = Array[ExtResource("4_wcflo")]([ExtResource("5_7aiav")])
+char_name = "Player"
+actions = Array[ExtResource("4_wcflo")]([ExtResource("5_7aiav"), ExtResource("6_0mnvg")])
 player = true
 speed = 100
+action_dice_pool = Array[int]([8, 8, 6, 6])
 
 [node name="Enemy" parent="." instance=ExtResource("3_sph7f")]
 position = Vector2(68, 0)
 scale = Vector2(1.00937, 1.00937)
+char_name = "Enemy"
 
 [node name="Target Hightlight" type="Node2D" parent="." node_paths=PackedStringArray("Area_Highlight", "Ally_Highlight", "Enemy_Highlight")]
 script = ExtResource("4_2wi7d")

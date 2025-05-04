@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Action" load_steps=3 format=3 uid="uid://bhhm61tj2hcvr"]
+
+[ext_resource type="Script" path="res://Scripts/effect.gd" id="1_d0151"]
+[ext_resource type="Script" path="res://Scripts/action.gd" id="2_vtg1k"]
+
+[resource]
+script = ExtResource("2_vtg1k")
+name = "Super Move"
+description = "Move 3 spots"
+allowed_targets = {
+"allies": false,
+"empty": true,
+"enemies": false,
+"self": false
+}
+move_to = true
+range = 3
+aoe = false
+effect = Array[ExtResource("1_d0151")]([])
+damage = 0
+heal = 0
+cost = 1
+upcast = {}

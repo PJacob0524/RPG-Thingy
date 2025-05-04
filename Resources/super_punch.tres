@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Action" load_steps=3 format=3 uid="uid://devydftsemqh8"]
+
+[ext_resource type="Script" path="res://Scripts/effect.gd" id="1_4g8oy"]
+[ext_resource type="Script" path="res://Scripts/action.gd" id="2_60ewy"]
+
+[resource]
+script = ExtResource("2_60ewy")
+name = "Super Punch"
+description = "Punch a guy for like two damage"
+allowed_targets = {
+"allies": false,
+"empty": false,
+"enemies": true,
+"self": false
+}
+move_to = false
+range = 1
+aoe = false
+effect = Array[ExtResource("1_4g8oy")]([null])
+damage = 2
+heal = 0
+cost = 3
+upcast = {}

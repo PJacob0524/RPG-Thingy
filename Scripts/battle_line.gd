@@ -12,6 +12,8 @@ var highlight_slots: Array
 @export var highlight: Highlight
 var selected_action = null
 var target_options: Array
+var current_menu = null
+var selected_die_index = null
 
 
 
@@ -45,6 +47,9 @@ func _process(delta):
 	else:
 		marker.visible = false
 	
+	if not active.action_dice.size():
+		next_turn()
+	
 	for i in range(0, slot_count):
 		if slots[i]:
 			slots[i].slot = i
@@ -58,7 +63,14 @@ func get_slot_pos(index: int):
 	return index * slot_size - %Shape.shape.size.x / 2 + slot_size / 2
 
 func next_turn():
+	print("Next turn!")
+	
 	active = turn_order.pop_front()
+	
+	print(active.name)
+	
+	active.start_turn()
+	print 
 	
 	if active.player:
 		pass
@@ -110,44 +122,63 @@ func _on_battle_area_input_event(viewport, event: InputEvent, shape_idx):
 	if(event is InputEventMouseButton and event.pressed):
 		var click = event.position - self.position + %Shape.shape.size / 2
 		selected = click.x / slot_size as int
-		if range(0, slot_count).has(selected):
-			if selected_action:
+
+		match current_menu:
+			null:
+				if slots[selected] == active && active.player:
+					menu("action")
+			"target":
 				if target_options.has(selected):
-					active.do(selected_action, selected)
-					selected_action = null
-					target_options.clear()
-					clear_highlights()
-					selected = null
+					action_selected(selected)
 				else:
-					selected_action = null
-					target_options.clear()
-					clear_highlights()
-					selected = null
-			elif slots[selected] == active && active.player:
-				for action in active.actions:
-					request_button.emit(action.name, action)
-			else:
-				selected_action = null
-				target_options.clear()
-				clear_highlights()
-		else:
-			selected_action = null
-			target_options.clear()
-			clear_highlights()
-			selected = null
+					menu("clear")
 
 func move_slots(from: int, to: int):
 	var temp = slots[from]
 	slots[from] = slots[to]
 	slots[to] = temp
 
-func action_selected(action):
-	selected_action = action
-	target_options = get_targets(active, selected_action)
-	highlight_target_options()
+func action_selected(value):
+	match current_menu:
+		"action":
+			selected_action = value
+			menu("dice")
+		"target":
+			active.do(selected_action, value, slots[value], selected_die_index)
+			menu("clear")
+		"dice":
+			selected_die_index = value
+			selected_action = get_upcast_action(selected_action, value)
+			menu("target")
+	
+func menu(type: String):
 	remove_action_menu.emit()
+	clear_highlights()
+	current_menu = type
+	match type:
+		"action":
+			for action in active.actions:
+				for dice in active.action_dice:
+					if dice >= action.cost:
+						request_button.emit(action.name, action)
+						break
+		"dice":
+			for i in range(0,active.action_dice.size()):
+				if active.action_dice[i] >= selected_action.cost:
+					request_button.emit(str(active.action_dice[i]), i)
+		"target":
+			target_options = get_targets(active, selected_action)
+			highlight_target_options()
+		"clear":
+			selected_action = null
+			target_options.clear()
+			clear_highlights()
+			remove_action_menu.emit()
+			selected = null
+			current_menu = null
 
-
+func get_upcast_action(action, dice):
+	return active.get_upcast(action, dice)
 
 signal request_button(name: String, value)
 signal remove_action_menu()

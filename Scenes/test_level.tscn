@@ -1,21 +1,21 @@
 [gd_scene load_steps=5 format=3 uid="uid://wng8dvyl0om0"]
 
-[ext_resource type="Script" path="res://battle_scene.gd" id="1_inoi2"]
-[ext_resource type="PackedScene" uid="uid://bu0tfp3rem5mw" path="res://battle_line.tscn" id="1_pxvll"]
-[ext_resource type="Script" path="res://action_menu.gd" id="2_v5ov0"]
-[ext_resource type="Script" path="res://action_button.gd" id="3_xqoce"]
+[ext_resource type="Script" path="res://Scripts/battle_scene.gd" id="1_gp0hd"]
+[ext_resource type="PackedScene" uid="uid://bu0tfp3rem5mw" path="res://Scenes/battle_line.tscn" id="2_x2t17"]
+[ext_resource type="Script" path="res://Scripts/action_menu.gd" id="3_0c8ul"]
+[ext_resource type="Script" path="res://Scripts/action_button.gd" id="4_qtdi5"]
 
 [node name="Battle Scene" type="Node" node_paths=PackedStringArray("battle_line", "action_menu")]
-script = ExtResource("1_inoi2")
+script = ExtResource("1_gp0hd")
 battle_line = NodePath("Battle Line")
 action_menu = NodePath("Action Menu")
 
-[node name="Battle Line" parent="." instance=ExtResource("1_pxvll")]
+[node name="Battle Line" parent="." instance=ExtResource("2_x2t17")]
 position = Vector2(530, 380)
 
 [node name="Action Menu" type="CanvasLayer" parent="."]
 visible = false
-script = ExtResource("2_v5ov0")
+script = ExtResource("3_0c8ul")
 
 [node name="ActionOptions" type="VBoxContainer" parent="Action Menu"]
 unique_name_in_owner = true
@@ -28,7 +28,8 @@ visible = false
 offset_right = 8.0
 offset_bottom = 8.0
 disabled = true
-script = ExtResource("3_xqoce")
+script = ExtResource("4_qtdi5")
 
 [connection signal="action_pressed" from="Action Menu/ActionButton" to="Battle Line" method="action_selected"]
+[connection signal="pressed" from="Action Menu/ActionButton" to="Action Menu" method="_on_action_button_pressed"]
 [connection signal="pressed" from="Action Menu/ActionButton" to="Action Menu/ActionButton" method="_on_pressed"]

@@ -9,3 +9,7 @@ class_name Action
 @export var aoe: bool
 @export var effect: Array[Effect]
 @export var do_next: Action
+@export var damage: int
+@export var heal: int
+@export var cost: int
+@export var upcast: Dictionary = {}
